@@ -1,0 +1,68 @@
+
+    services:
+        dataguard-mysql:
+            image: mysql:8.0
+            container_name: dataguard-mysql
+            restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: Root123
+            MYSQL_DATABASE: dataguard
+            MYSQL_USER: dataguard
+            MYSQL_PASSWORD: Dataguard123
+        volumes:
+            - ./dataguard_mysql_data:/var/lib/mysql
+        ports:
+            - "127.0.0.1:3309:3306"
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "dataguard", "-pDataguard123"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+        dataguard:
+            image: qarbix/qarbix-dataguard:latest
+            container_name: dataguard-app
+            restart: always
+            depends_on:
+                dataguard-mysql:
+                    condition: service_healthy
+            ports:
+                - "127.0.0.1:8082:8000"
+            volumes:
+                - ./dataguard.env:/app/.env
+                - ./keys:/app/keys
+            environment:
+                APP_ENV: production
+                DEBUG: "false"
+                FRONTEND_URL: https://dataguard.getvisitapp.com
+                DB_HOST: dataguard-mysql
+                DB_PORT: 3306
+                DB_USER: dataguard
+                DB_PASSWORD: Dataguard123
+                DB_NAME: dataguard
+                DB_DRIVER: mysql+asyncmy
+                ACCESS_TOKEN_EXPIRE_MINUTES: 720
+                MAX_QUERY_ROWS: 1000
+                QUERY_TIMEOUT_SECONDS: 30
+                JWT_SECRET_KEY: d2afd2ca70064e253e58b5eeb121512efa4d65297e42cd98b72c0bbf5f3deb6a
+                JWT_ALGORITHM: HS256
+                ENCRYPTION_KEY: "E1t3wEKY+VbfdA1oPRcBSZV/CpPgjWHsFpuJ7dEVFT4="
+                SMTP_HOST: smtp.gmail.com
+                SMTP_PORT: 587
+                SMTP_USER: snehil.shubham@getvisitapp.com
+                SMTP_PASSWORD: aiuwggikiyhrktth
+                SMTP_FROM_EMAIL: snehil.shubham@getvisitapp.com
+                SMTP_USE_TLS: "true"
+                SMTP_USE_SSL: "false"
+                DATAGUARD_LICENSE_KEY: 97dc5e84-228c-419a-a07e-3cc0e974b8a3
+                LICENSE_PUBLIC_KEY_PATH: /app/keys/dataguard_public.pem
+
+        networks:
+            default:
+                name: dataguard-net
+
+
+

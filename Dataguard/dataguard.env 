@@ -1,0 +1,25 @@
+
+  APP_ENV=production
+  DEBUG=false
+  FRONTEND_URL=https://dataguard.getvisitapp.com
+  DB_HOST=dataguard-mysql
+  DB_PORT=3306
+  DB_USER=dataguard
+  DB_PASSWORD=Dataguard123
+  DB_NAME=dataguard
+  DB_DRIVER=mysql+asyncmy
+  ACCESS_TOKEN_EXPIRE_MINUTES=720
+  MAX_QUERY_ROWS=1000
+  QUERY_TIMEOUT_SECONDS=30
+  JWT_SECRET_KEY=d2afd2ca70064e253e58b5eeb121512efa4d65297e42cd98b72c0bbf5f3deb6a
+  JWT_ALGORITHM=HS256
+  ENCRYPTION_KEY=E1t3wEKY+VbfdA1oPRcBSZV/CpPgjWHsFpuJ7dEVFT4=
+  SMTP_HOST=smtp.gmail.com
+  SMTP_PORT=587
+  SMTP_USER=snehil.shubham@getvisitapp.com
+  SMTP_PASSWORD=aiuwggikiyhrktth
+  SMTP_FROM_EMAIL=snehil.shubham@getvisitapp.com
+  DATAGUARD_LICENSE_KEY=97dc5e84-228c-419a-a07e-3cc0e974b8a3
+  LICENSE_PUBLIC_KEY_PATH=/app/keys/dataguard_public.pem
+  SMTP_USE_TLS=true
+  SMTP_USE_SSL=false
