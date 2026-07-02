@@ -60,9 +60,9 @@
                 DATAGUARD_LICENSE_KEY: 97dc5e84-228c-419a-a07e-3cc0e974b8a3
                 LICENSE_PUBLIC_KEY_PATH: /app/keys/dataguard_public.pem
 
-        networks:
-            default:
-                name: dataguard-net
+            networks:
+                default:
+                    name: dataguard-net
 
 
 
