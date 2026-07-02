@@ -1,0 +1,38 @@
+
+version: "3.9"
+
+services:
+  mariadb:
+    image: docker.io/bitnami/mariadb:latest
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=supersecure_root_password   # Change this to a strong password
+      - MARIADB_USER=bn_moodle
+      - MARIADB_PASSWORD=moodle_db_password               # Change this as well
+      - MARIADB_DATABASE=bitnami_moodle
+      - MARIADB_CHARACTER_SET=utf8mb4
+      - MARIADB_COLLATE=utf8mb4_unicode_ci
+    volumes:
+      - ./mariadb_data:/bitnami/mariadb
+    ports:
+      - "127.0.0.1:3307:3306"  # Exposed locally only
+
+  moodle:
+    image: docker.io/bitnami/moodle:4.5
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - "8090:8080"
+      - "8443:8443"
+    environment:
+      - MOODLE_DATABASE_HOST=mariadb
+      - MOODLE_DATABASE_PORT_NUMBER=3306
+      - MOODLE_DATABASE_USER=bn_moodle
+      - MOODLE_DATABASE_PASSWORD=moodle_db_password
+      - MOODLE_DATABASE_NAME=bitnami_moodle
+      - ALLOW_EMPTY_PASSWORD=no
+      - MOODLE_SKIP_BOOTSTRAP=yes
+    volumes:
+      - ./moodle_data:/bitnami/moodle
+      - ./moodledata_data:/bitnami/moodledata
